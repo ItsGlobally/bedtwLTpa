@@ -1,0 +1,31 @@
+name: Tpa
+version: '1.0-SNAPSHOT'
+main: me.itsglobally.tpa.Tpa
+api-version: '1.21'
+commands:
+  tpa:
+    aliases:
+      - tpaccept
+      - tpdeny
+      - tpyes
+      - tpno
+      - tpwhitelist
+permissions:
+  bedtwltpa.tpa:
+    description: gay
+    default: not op
+  bedtwltpa.tpacceot:
+    description: gay
+    default: not op
+  bedtwltpa.tpdeny:
+    description: gay
+    default: not op
+  bedtwltpa.tpayes:
+    description: gay
+    default: not op
+  bedtwltpa.tpano:
+    description: gay
+    default: not op
+  bedtwltpa.tpwhitelist:
+    description: gay
+    default: not op
