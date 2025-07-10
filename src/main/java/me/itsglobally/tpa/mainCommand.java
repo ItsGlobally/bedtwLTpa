@@ -62,7 +62,7 @@ public class mainCommand implements CommandExecutor {
                 tpdeny(p, player);
                 return true;
             }
-            case "tpyes;" -> {
+            case "tpyes" -> {
                 tpyes(p, player);
                 return true;
             }
