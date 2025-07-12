@@ -55,5 +55,6 @@ public class utils {
         for (Player p : Bukkit.getOnlinePlayers()) {
             displayNameList.add(p.getDisplayName());
         }
+        return List.of();
     }
 }
