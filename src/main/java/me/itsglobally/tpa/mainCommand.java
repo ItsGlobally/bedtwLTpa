@@ -2,7 +2,9 @@ package me.itsglobally.tpa;
 
 import me.bedtwL.ffa.api.PureAPI;
 import me.bedtwL.ffa.api.utils.ILanguageUtils;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,20 +37,6 @@ public class mainCommand implements CommandExecutor, TabCompleter {
             return true;
         }
         Player player = null;
-        /* switch (s) {
-            case "tpa":
-            case "tpaccept":
-            case "tpdeny":
-            case "tpyes":
-            case "tpno":
-
-                break;
-
-                if (utils.getPlayerByDisplayName(strings[0]) != null) {
-                    player = utils.getPlayerByDisplayName(strings[0]);
-                }
-                break;
-        } */
         if (utils.getPlayerByDisplayName(strings[0]) != null) {
             player = utils.getPlayerByDisplayName(strings[0]);
         }
@@ -92,13 +80,14 @@ public class mainCommand implements CommandExecutor, TabCompleter {
             utils.chat(p, langapi.getMsg(p.getUniqueId(), "already-rq").replace("{tg}", tg.getDisplayName()));
             return;
         }
+        TextComponent accept = Component.text("[Y] ").clickEvent(ClickEvent.runCommand("/tpaccept " + p.getDisplayName()));
+        TextComponent deny = Component.text("[N] ").clickEvent(ClickEvent.runCommand("/tpdeny" + p.getDisplayName()));
         utils.setTpaTg(p, tg);
         //utils.chat(p, "Sent request to " + tg.getDisplayName());
         utils.chat(p, langapi.getMsg(p.getUniqueId(), "sent-req").replace("{tg}", tg.getDisplayName()));
         //utils.chat(tg, p.getDisplayName() + " wants to teleport to you!\nAccept or deny by using");
         utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-req").replace("{p}", p.getDisplayName()));
-        utils.chat(tg, "/tpaccept " + p.getDisplayName());
-        utils.chat(tg, "/tpdeny " + p.getDisplayName());
+        utils.chat(tg, accept.append(deny));
         new BukkitRunnable() {
             @Override
             public void run(){
@@ -106,8 +95,8 @@ public class mainCommand implements CommandExecutor, TabCompleter {
                     return;
                 }
                 utils.remTpaTg(p);
-            } // nb
-        }.runTaskLater(plugin,6000L); // so this done?(whole plugin shit u missed some stuff
+            }
+        }.runTaskLater(plugin,6000L);
     }
     private static void tpaccept(Player p, Player tg) {
         if (utils.getTpaTg(p) != tg) {

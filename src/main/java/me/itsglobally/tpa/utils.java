@@ -1,5 +1,6 @@
 package me.itsglobally.tpa;
 
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,13 +13,17 @@ import java.util.List;
 public class utils {
     private static final HashMap<Player, Player> tpaDb = new HashMap<>();
 
-    private static final List<String> displayNameList = new ArrayList<>();
+
 
     public static void chat(Player p, String m) {
         p.sendMessage(m);
     }
 
     public static void chat(CommandSender p, String m) {
+        p.sendMessage(m);
+    }
+
+    public static void chat(Player p, TextComponent m) {
         p.sendMessage(m);
     }
 
@@ -52,9 +57,10 @@ public class utils {
         return fP;
     }
     public static List<String> getOnlinePlayerDisplayName() {
+        List<String> displayNameList = new ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             displayNameList.add(p.getDisplayName());
         }
-        return List.of();
+        return displayNameList;
     }
 }
