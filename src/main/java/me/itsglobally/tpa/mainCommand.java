@@ -33,7 +33,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         // strings = args
         if (!(commandSender instanceof Player p)) {
             // utils.chat(commandSender, "gay");
-            langapi.tellMsg(commandSender, "not-player");
+            langapi.tellMsg(commandSender, "cmd.tpa.not-player");
             return true;
         }
         Player player = null;
@@ -42,7 +42,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         }
         if (player == null) {
             // utils.chat(p, "No players found");
-            langapi.tellMsg(p, "no-player");
+            langapi.tellMsg(p, "cmd.tpa.no-player"); // donne
             return true;
         }
 
@@ -86,27 +86,27 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         boolean executeAbleWl = true;
         if (utils.getTpaTg(p) == tg) {
             // utils.chat(p, "You already have a request to " + tg.getDisplayName());
-            utils.chat(p, langapi.getMsg(p.getUniqueId(), "already-rq").replace("{tg}", tg.getDisplayName()));
+            utils.chat(p, langapi.getMsg(p.getUniqueId(), "cmd.tpa.already-rq").replace("{tg}", tg.getDisplayName()));
             return;
         }
         if (utils.getTpaBl(tg).contains(p)) {
-            langapi.tellMsg(p, "get-blocked");
+            langapi.tellMsg(p, "cmd.tpa.get-blocked");
             return;
         }
         if (!utils.getTpYesOrNo(tg)) {
             executeAbleWl = utils.getTpaWl(p).contains(tg);
         }
         if (!executeAbleWl) {
-            langapi.tellMsg(p, "tg-disabled-rq");
+            langapi.tellMsg(p, "cmd.tpa.tg-disabled-rq");
             return;
         }
         TextComponent accept = Component.text("[Y] ").clickEvent(ClickEvent.runCommand("/tpaccept " + p.getDisplayName()));
         TextComponent deny = Component.text("[N] ").clickEvent(ClickEvent.runCommand("/tpdeny" + p.getDisplayName()));
         utils.setTpaTg(p, tg);
         //utils.chat(p, "Sent request to " + tg.getDisplayName());
-        utils.chat(p, langapi.getMsg(p.getUniqueId(), "sent-req").replace("{tg}", tg.getDisplayName()));
+        utils.chat(p, langapi.getMsg(p.getUniqueId(), "cmd.tpa.sent-req").replace("{tg}", tg.getDisplayName()));
         //utils.chat(tg, p.getDisplayName() + " wants to teleport to you!\nAccept or deny by using");
-        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-req").replace("{p}", p.getDisplayName()));
+        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "cmd.tpa.get-req").replace("{p}", p.getDisplayName()));
         utils.chat(tg, accept.append(deny));
         new BukkitRunnable() {
             @Override
@@ -121,62 +121,63 @@ public class mainCommand implements CommandExecutor, TabCompleter {
     private static void tpaccept(Player p, Player tg) {
         if (utils.getTpaTg(tg) != p) {
             //utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
-            langapi.tellMsg(p, "player-didnt-rq");
+            langapi.tellMsg(p, "cmd.tpa.player-didnt-rq");
             return;
         }
         if (tg == null) {
             //utils.chat(p, "Player logged off.");
-            langapi.tellMsg(p, "player-logged-off");
+            langapi.tellMsg(p, "cmd.tpa.player-logged-off");
             return;
         }
         tg.teleport(p.getLocation());
         //utils.chat(p, tg, "Telepored!");
-        langapi.tellMsg(p, "telepored");
-        langapi.tellMsg(tg, "telepored");
+        langapi.tellMsg(p, "cmd.tpa.telepored");
+        langapi.tellMsg(tg, "cmd.tpa.telepored");
         utils.remTpaTg(p);
     }
     private static void tpdeny(Player p, Player tg) {
         if (utils.getTpaTg(tg) != p) {
             // utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
-            langapi.tellMsg(p, "player-didnt-rq");
+            langapi.tellMsg(p, "cmd.tpa.player-didnt-rq");
             return;
         }
         //utils.chat(p, "Denied " + tg.getDisplayName() + "'s teleport request!");
-        utils.chat(p, langapi.getMsg(p.getUniqueId(), "denied-rq").replace("{tg}", tg.getDisplayName()));
-        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-denied").replace("{p}", p.getDisplayName()));
+        utils.chat(p, langapi.getMsg(p.getUniqueId(), "cmd.tpa.denied-rq").replace("{tg}", tg.getDisplayName()));
+        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "cmd.tpa.get-denied").replace("{p}", p.getDisplayName()));
         //utils.chat(tg, p.getDisplayName() + " denied your teleport request!");
     }
     private static void tpcancel(Player p, Player tg) {
         if (utils.getTpaTg(p) != tg) {
             // You didn't send a tpa request to this player!
-            langapi.tellMsg(p, "u-didnt-rq");
+            langapi.tellMsg(p, "cmd.tpa.u-didnt-rq");
             return;
         }
         utils.remTpaTg(p);
     }
     private static void tpyes(Player p, Player tg) {
         utils.tpyes(p);
-        langapi.tellMsg(p, "tpyes");
+        langapi.tellMsg(p, "cmd.tpa.tpyes");
     }
     private static void tpno(Player p, Player tg) {
         utils.tpno(p);
-        langapi.tellMsg(p, "tpno");
+        langapi.tellMsg(p, "cmd.tpa.tpno");
     }
     private static void tpwhitelist(Player p, Player tg) {
         if (utils.getTpaWl(p).contains(tg)) {
-            langapi.tellMsg(p, "already-in-wl");
+            langapi.tellMsg(p, "cmd.tpa.already-in-wl");
             return;
         }
         utils.addTpaWl(p, tg);
-        langapi.tellMsg(p, "add-wl-success");
+        langapi.tellMsg(p, "cmd.tpa.add-wl-success");
     }
     private static void tpblacklist(Player p, Player tg) {
         if (utils.getTpaBl(p).contains(tg)) {
-            langapi.tellMsg(p, "already-in-bl");
+            langapi.tellMsg(p, "cmd.tpa.already-in-bl");
             return;
         }
         utils.addTpaBl(p, tg);
-        langapi.tellMsg(p, "add-bl-success");
+        // lang api: bro tmd need use cmd.tpa.<ur code>
+        langapi.tellMsg(p, "cmd.tpa.add-bl-success");
     }
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String @NotNull [] args) {
