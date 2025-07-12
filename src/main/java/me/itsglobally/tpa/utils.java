@@ -14,9 +14,11 @@ public class utils {
     public static void chat(Player p, String m) {
         p.sendMessage(m);
     }
+
     public static void chat(CommandSender p, String m) {
         p.sendMessage(m);
     }
+
     public static void chat(Player p, Player ap, String m) {
         p.sendMessage(m);
         ap.sendMessage(m);
@@ -40,7 +42,7 @@ public class utils {
     public static Player getPlayerByDisplayName(String n) {
         Player fP = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (p.getDisplayName() == n) {
+            if (p.getDisplayName().equals(n)) {
                 fP = p;
             }
         }

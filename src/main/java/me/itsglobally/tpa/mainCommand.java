@@ -1,5 +1,7 @@
 package me.itsglobally.tpa;
 
+import me.bedtwL.ffa.api.PureAPI;
+import me.bedtwL.ffa.api.utils.ILanguageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +16,9 @@ import java.util.UUID;
 public class mainCommand implements CommandExecutor {
 
     private static JavaPlugin plugin;
+
+    @Deprecated // functions not good
+    private static final ILanguageUtils langapi = PureAPI.getLanguageUtils();
 
     public mainCommand(JavaPlugin plugin) {
         this.plugin = plugin;
