@@ -14,16 +14,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class mainCommand implements CommandExecutor, TabCompleter {
 
     private static JavaPlugin plugin;
 
-    private static final ILanguageUtils langapi = PureAPI.getLanguageUtils();
+    private static ILanguageUtils langapi;
 
     public mainCommand(JavaPlugin plugin) {
-        this.plugin = plugin;
+        mainCommand.plugin = plugin;
+        mainCommand.langapi=PureAPI.getLanguageUtils();
     }
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {

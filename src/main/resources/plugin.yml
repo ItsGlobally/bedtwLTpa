@@ -2,6 +2,8 @@ name: Tpa
 version: '1.0-SNAPSHOT'
 main: me.itsglobally.tpa.Tpa
 api-version: '1.21'
+depend:
+  - bedtwLServerCore
 commands:
   tpa:
     aliases:
