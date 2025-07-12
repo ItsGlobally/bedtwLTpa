@@ -3,13 +3,16 @@ package me.itsglobally.tpa;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class utils {
     private static final HashMap<Player, Player> tpaDb = new HashMap<>();
+
+    private static final List<String> displayNameList = new ArrayList<>();
 
     public static void chat(Player p, String m) {
         p.sendMessage(m);
@@ -47,5 +50,10 @@ public class utils {
             }
         }
         return fP;
+    }
+    public static List<String> getOnlinePlayerDisplayName() {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            displayNameList.add(p.getDisplayName());
+        }
     }
 }

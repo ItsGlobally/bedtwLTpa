@@ -7,11 +7,12 @@ public final class Tpa extends JavaPlugin {
     @Override
     public void onEnable() {
         getCommand("tpa").setExecutor(new mainCommand(this));
-
+        getCommand("tpa").setTabCompleter(new mainCommand(this));
+        getLogger().info("Enabled!");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        getLogger().info("Disabled!");
     }
 }
