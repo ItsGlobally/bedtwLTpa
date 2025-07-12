@@ -9,11 +9,14 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class utils {
     private static final HashMap<Player, Player> tpaDb = new HashMap<>();
 
+    private static final HashMap<Player, List<Player>> tpaBlDb= new HashMap<>();
 
+    private static final HashMap<Player, List<Player>> tpaWlDb= new HashMap<>();
 
     public static void chat(Player p, String m) {
         p.sendMessage(m);
@@ -45,6 +48,42 @@ public class utils {
     }
     public static Player getTpaTg(Player p) {
         return tpaDb.getOrDefault(p, null);
+    }
+    public static List<Player> getTpaBl(Player p) { return tpaBlDb.getOrDefault(p, null); }
+    public static void addTpaBl(Player p, Player tg) {
+        List<Player> current = getTpaBl(p);
+        if (current.contains(tg)) { return; }
+        current.add(tg);
+        tpaBlDb.put(p, current);
+    }
+    public static void remTpaBl(Player p, Player tg) {
+        List<Player> current = getTpaBl(p);
+        if (!current.contains(tg)) { return; }
+        current.remove(tg);
+        tpaBlDb.put(p, current);
+    }
+    public static List<Player> getTpaWl(Player p) { return tpaWlDb.getOrDefault(p, null); }
+    public static void addTpaWl(Player p, Player tg) {
+        List<Player> current = getTpaWl(p);
+        if (current.contains(tg)) { return; }
+        current.add(tg);
+        tpaBlDb.put(p, current);
+    }
+    public static void remTpaWl(Player p, Player tg) {
+        List<Player> current = getTpaWl(p);
+        if (!current.contains(tg)) { return; }
+        current.remove(tg);
+        tpaBlDb.put(p, current);
+    }
+    private static final HashMap<Player, Boolean> tpYesOrNo = new HashMap<>();
+    public static void tpyes(Player p) {
+        tpYesOrNo.put(p, true);
+    }
+    public static void tpno(Player p) {
+        tpYesOrNo.put(p, false);
+    }
+    public static boolean getTpYesOrNo(Player p) {
+        return tpYesOrNo.getOrDefault(p, true);
     }
     @Nullable
     public static Player getPlayerByDisplayName(String n) {

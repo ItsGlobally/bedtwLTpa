@@ -9,9 +9,11 @@ commands:
     aliases:
       - tpaccept
       - tpdeny
+      - tpcancel
       - tpyes
       - tpno
       - tpwhitelist
+      - tpblacklist
 permissions:
   bedtwltpa.tpa:
     description: gay

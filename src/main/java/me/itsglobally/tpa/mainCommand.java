@@ -59,6 +59,10 @@ public class mainCommand implements CommandExecutor, TabCompleter {
                 tpdeny(p, player);
                 return true;
             }
+            case "tpcancel" -> {
+                tpcancel(p, player);
+                return true;
+            }
             case "tpyes" -> {
                 tpyes(p, player);
                 return true;
@@ -71,13 +75,29 @@ public class mainCommand implements CommandExecutor, TabCompleter {
                 tpwhitelist(p, player);
                 return true;
             }
+            case "tpblacklist" -> {
+                tpblacklist(p, player);
+                return true;
+            }
         }
         return true;
     }
     private static void tpa(Player p, Player tg) {
-        if (utils.getTpaTg(p) != tg) {
+        boolean executeAbleWl = true;
+        if (utils.getTpaTg(p) == tg) {
             // utils.chat(p, "You already have a request to " + tg.getDisplayName());
             utils.chat(p, langapi.getMsg(p.getUniqueId(), "already-rq").replace("{tg}", tg.getDisplayName()));
+            return;
+        }
+        if (utils.getTpaBl(tg).contains(p)) {
+            langapi.tellMsg(p, "get-blocked");
+            return;
+        }
+        if (!utils.getTpYesOrNo(tg)) {
+            executeAbleWl = utils.getTpaWl(p).contains(tg);
+        }
+        if (!executeAbleWl) {
+            langapi.tellMsg(p, "tg-disabled-rq");
             return;
         }
         TextComponent accept = Component.text("[Y] ").clickEvent(ClickEvent.runCommand("/tpaccept " + p.getDisplayName()));
@@ -99,7 +119,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         }.runTaskLater(plugin,6000L);
     }
     private static void tpaccept(Player p, Player tg) {
-        if (utils.getTpaTg(p) != tg) {
+        if (utils.getTpaTg(tg) != p) {
             //utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
             langapi.tellMsg(p, "player-didnt-rq");
             return;
@@ -126,14 +146,37 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-denied").replace("{p}", p.getDisplayName()));
         //utils.chat(tg, p.getDisplayName() + " denied your teleport request!");
     }
+    private static void tpcancel(Player p, Player tg) {
+        if (utils.getTpaTg(p) != tg) {
+            // You didn't send a tpa request to this player!
+            langapi.tellMsg(p, "u-didnt-rq");
+            return;
+        }
+        utils.remTpaTg(p);
+    }
     private static void tpyes(Player p, Player tg) {
-        utils.chat(p, "function not done");
+        utils.tpyes(p);
+        langapi.tellMsg(p, "tpyes");
     }
     private static void tpno(Player p, Player tg) {
-        utils.chat(p, "function not done");
+        utils.tpno(p);
+        langapi.tellMsg(p, "tpno");
     }
     private static void tpwhitelist(Player p, Player tg) {
-        utils.chat(p, "function not done");
+        if (utils.getTpaWl(p).contains(tg)) {
+            langapi.tellMsg(p, "already-in-wl");
+            return;
+        }
+        utils.addTpaWl(p, tg);
+        langapi.tellMsg(p, "add-wl-success");
+    }
+    private static void tpblacklist(Player p, Player tg) {
+        if (utils.getTpaBl(p).contains(tg)) {
+            langapi.tellMsg(p, "already-in-bl");
+            return;
+        }
+        utils.addTpaBl(p, tg);
+        langapi.tellMsg(p, "add-bl-success");
     }
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String @NotNull [] args) {
@@ -141,8 +184,17 @@ public class mainCommand implements CommandExecutor, TabCompleter {
             case "tpa", "tpaccept", "tpdeny" -> {
                 return utils.getOnlinePlayerDisplayName();
             }
-            case "tpyes","tpno","tpwhilelist" -> {
-                return Collections.singletonList("Still_under_dev");
+            case "tpwhilelist", "tpblacklist" -> {
+                if (args.length == 1) {
+                    return List.of("add", "remove");
+                } else if (args.length == 2) {
+                    return utils.getOnlinePlayerDisplayName();
+                } else {
+                    return Collections.singletonList("This_cmd_only_requires_2_args");
+                }
+            }
+            case "tpyes","tpno" -> {
+                return List.of("true", "false");
             }
 
         }
