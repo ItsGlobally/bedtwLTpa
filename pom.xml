@@ -48,7 +48,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <directory>${env.PLUGIN_REPO}\tpa</directory>
+        <directory>${env.PLUGIN_REPO}/tpa/R1</directory>
     </build>
 
     <repositories>
