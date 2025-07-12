@@ -17,7 +17,6 @@ public class mainCommand implements CommandExecutor {
 
     private static JavaPlugin plugin;
 
-    @Deprecated // functions not good
     private static final ILanguageUtils langapi = PureAPI.getLanguageUtils();
 
     public mainCommand(JavaPlugin plugin) {
@@ -28,7 +27,8 @@ public class mainCommand implements CommandExecutor {
         // s = cmd
         // strings = args
         if (!(commandSender instanceof Player p)) {
-            utils.chat(commandSender, "gay");
+            // utils.chat(commandSender, "gay");
+            langapi.tellMsg(commandSender, "not-player");
             return true;
         }
         Player player = null;
@@ -50,7 +50,8 @@ public class mainCommand implements CommandExecutor {
             player = utils.getPlayerByDisplayName(strings[0]);
         }
         if (player == null) {
-            utils.chat(p, "No players found");
+            // utils.chat(p, "No players found");
+            langapi.tellMsg(p, "no-player");
             return true;
         }
 
@@ -84,12 +85,15 @@ public class mainCommand implements CommandExecutor {
     }
     private static void tpa(Player p, Player tg) {
         if (utils.getTpaTg(p) != tg) {
-            utils.chat(p, "You already have a request to " + tg.getDisplayName());
+            // utils.chat(p, "You already have a request to " + tg.getDisplayName());
+            utils.chat(p, langapi.getMsg(p.getUniqueId(), "already-rq").replace("{tg}", tg.getDisplayName()));
             return;
         }
         utils.setTpaTg(p, tg);
-        utils.chat(p, "Sent request to " + tg.getDisplayName());
-        utils.chat(tg, p.getName() + " wants to teleport to you!\nAccept or deny by using");
+        //utils.chat(p, "Sent request to " + tg.getDisplayName());
+        utils.chat(p, langapi.getMsg(p.getUniqueId(), "sent-req").replace("{tg}", tg.getDisplayName()));
+        //utils.chat(tg, p.getDisplayName() + " wants to teleport to you!\nAccept or deny by using");
+        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-req").replace("{p}", p.getDisplayName()));
         utils.chat(tg, "/tpaccept " + p.getDisplayName());
         utils.chat(tg, "/tpdeny " + p.getDisplayName());
         new BukkitRunnable() {
@@ -104,24 +108,31 @@ public class mainCommand implements CommandExecutor {
     }
     private static void tpaccept(Player p, Player tg) {
         if (utils.getTpaTg(p) != tg) {
-            utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
+            //utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
+            langapi.tellMsg(p, "player-didnt-rq");
             return;
         }
         if (tg == null) {
-            utils.chat(p, "Player logged off.");
+            //utils.chat(p, "Player logged off.");
+            langapi.tellMsg(p, "player-logged-off");
             return;
         }
         tg.teleport(p.getLocation());
-        utils.chat(p, tg, "Telepored!");
+        //utils.chat(p, tg, "Telepored!");
+        langapi.tellMsg(p, "telepored");
+        langapi.tellMsg(tg, "telepored");
         utils.remTpaTg(p);
     }
     private static void tpdeny(Player p, Player tg) {
         if (utils.getTpaTg(tg) != p) {
-            utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
+            // utils.chat(p, "Player not found or this player or the player did not send you a tpa request!");
+            langapi.tellMsg(p, "player-didnt-rq");
             return;
         }
-        utils.chat(p, "Denied " + tg.getDisplayName() + "'s teleport request!");
-        utils.chat(tg, tg.getDisplayName() + " denied your teleport request!");
+        //utils.chat(p, "Denied " + tg.getDisplayName() + "'s teleport request!");
+        utils.chat(p, langapi.getMsg(p.getUniqueId(), "denied-rq").replace("{tg}", tg.getDisplayName()));
+        utils.chat(tg, langapi.getMsg(tg.getUniqueId(), "get-denied").replace("{p}", p.getDisplayName()));
+        //utils.chat(tg, p.getDisplayName() + " denied your teleport request!");
     }
     private static void tpyes(Player p, Player tg) {
         utils.chat(p, "function not done");
