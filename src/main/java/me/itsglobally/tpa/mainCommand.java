@@ -85,10 +85,13 @@ public class mainCommand implements CommandExecutor, TabCompleter {
     }
     private static void tpa(Player p, Player tg) {
         boolean executeAbleWl = true;
-        if (utils.getTpaTg(p) == tg) {
+        /*if (utils.getTpaTg(p) == tg) {
             // utils.chat(p, "You already have a request to " + tg.getDisplayName());
             utils.chat(p, langapi.getMsg(p.getUniqueId(), "cmd.tpa.already-rq").replace("{tg}", tg.getDisplayName()));
             return;
+        }*/
+        if (utils.getTpaTg(p) != null) {
+            langapi.tellMsg(p, "cmd.tpa.multi-req-not-implemented");
         }
         if (utils.getTpaBl(tg).contains(p)) {
             langapi.tellMsg(p, "cmd.tpa.get-blocked");
@@ -219,7 +222,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
                 }
             }
             case "tpyes","tpno" -> {
-                return List.of("true", "false");
+                return Collections.singletonList("No-args-required-for-this-command");
             }
 
         }
