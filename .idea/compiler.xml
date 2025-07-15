@@ -6,6 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+      </profile>
+      <profile name="Annotation profile for tpa" enabled="true">
+        <sourceOutputDir name="${env.PLUGIN_REPO}/tpa/generated-sources/annotations" />
+        <sourceTestOutputDir name="${env.PLUGIN_REPO}/tpa/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
         <module name="tpa" />
       </profile>
     </annotationProcessing>

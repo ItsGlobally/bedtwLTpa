@@ -23,8 +23,8 @@ public class mainCommand implements CommandExecutor, TabCompleter {
 
     private static ILanguageUtils langapi;
 
-    public mainCommand(JavaPlugin plugin) {
-        mainCommand.plugin = plugin;
+    public mainCommand() {
+        mainCommand.plugin = PureAPI.getPlugin();
         mainCommand.langapi=PureAPI.getLanguageUtils();
     }
     @Override
@@ -42,7 +42,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         }
         if (player == null) {
             // utils.chat(p, "No players found");
-            langapi.tellMsg(p, "cmd.tpa.no-player"); // donne
+            langapi.tellMsg(p, "cmd.tpa.no-player");
             return true;
         }
 

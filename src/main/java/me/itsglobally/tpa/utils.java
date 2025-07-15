@@ -87,16 +87,15 @@ public class utils {
     }
     @Nullable
     public static Player getPlayerByDisplayName(String n) {
-        Player fP = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
             if (p.getDisplayName().equals(n)) {
-                fP = p;
+                return p;
             }
         }
-        return fP;
+        return null;
     }
     public static List<String> getOnlinePlayerDisplayName() {
-        List<String> displayNameList = new ArrayList<>();
+        final List<String> displayNameList = new ArrayList<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             displayNameList.add(p.getDisplayName());
         }
