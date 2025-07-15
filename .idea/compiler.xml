@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
       </profile>
       <profile name="Annotation profile for tpa" enabled="true">
-        <sourceOutputDir name="${env.PLUGIN_REPO}/tpa/generated-sources/annotations" />
-        <sourceTestOutputDir name="${env.PLUGIN_REPO}/tpa/generated-test-sources/test-annotations" />
+        <sourceOutputDir name="${env.PLUGIN_REPO}/tpa/R1/generated-sources/annotations" />
+        <sourceTestOutputDir name="${env.PLUGIN_REPO}/tpa/R1/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="tpa" />
       </profile>

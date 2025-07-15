@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class mainCommand implements CommandExecutor, TabCompleter {
 
@@ -72,11 +73,11 @@ public class mainCommand implements CommandExecutor, TabCompleter {
                 return true;
             }
             case "tpwhitelist" -> {
-                tpwhitelist(p, player);
+                tpwhitelist(p, player, strings[1]);
                 return true;
             }
             case "tpblacklist" -> {
-                tpblacklist(p, player);
+                tpblacklist(p, player, strings[1]);
                 return true;
             }
         }
@@ -162,34 +163,57 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         utils.tpno(p);
         langapi.tellMsg(p, "cmd.tpa.tpno");
     }
-    private static void tpwhitelist(Player p, Player tg) {
-        if (utils.getTpaWl(p).contains(tg)) {
-            langapi.tellMsg(p, "cmd.tpa.already-in-wl");
-            return;
+    private static void tpwhitelist(Player p, Player tg, String status) {
+        if (Objects.equals(status, "add")) {
+            if (utils.getTpaWl(p).contains(tg)) {
+                langapi.tellMsg(p, "cmd.tpa.already-in-wl");
+                return;
+            }
+            utils.addTpaWl(p, tg);
+            langapi.tellMsg(p, "cmd.tpa.add-wl-success");
+        } else if (status.equalsIgnoreCase("remove")){
+            if (!utils.getTpaWl(p).contains(tg)) {
+                langapi.tellMsg(p, "cmd.tpa.not-in-wl");
+                return;
+            }
+            utils.remTpaWl(p, tg);
+            langapi.tellMsg(p, "cmd.tpa.rem-wl-success");
         }
-        utils.addTpaWl(p, tg);
-        langapi.tellMsg(p, "cmd.tpa.add-wl-success");
+
     }
-    private static void tpblacklist(Player p, Player tg) {
-        if (utils.getTpaBl(p).contains(tg)) {
-            langapi.tellMsg(p, "cmd.tpa.already-in-bl");
-            return;
+    private static void tpblacklist(Player p, Player tg, String status) {
+        if (status.equals("add")) {
+            if (utils.getTpaBl(p).contains(tg)) {
+                langapi.tellMsg(p, "cmd.tpa.already-in-bl");
+                return;
+            }
+            utils.addTpaBl(p, tg);
+            langapi.tellMsg(p, "cmd.tpa.add-bl-success");
+        } else if (status.equalsIgnoreCase("remove")){
+            if (!utils.getTpaBl(p).contains(tg)) {
+                langapi.tellMsg(p, "cmd.tpa.not-in-bl");
+                return;
+            }
+            utils.remTpaBl(p, tg);
+            langapi.tellMsg(p, "cmd.tpa.rem-wl-success");
         }
-        utils.addTpaBl(p, tg);
-        // lang api: bro tmd need use cmd.tpa.<ur code>
-        langapi.tellMsg(p, "cmd.tpa.add-bl-success");
     }
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String @NotNull [] args) {
         switch (alias) {
             case "tpa", "tpaccept", "tpdeny" -> {
-                return utils.getOnlinePlayerDisplayName();
+                if (args.length == 1) {
+                    return utils.getOnlinePlayerDisplayName();
+                } else {
+                    return Collections.singletonList("This_cmd_only_requires_1_args");
+                }
             }
             case "tpwhilelist", "tpblacklist" -> {
                 if (args.length == 1) {
-                    return List.of("add", "remove");
-                } else if (args.length == 2) {
                     return utils.getOnlinePlayerDisplayName();
+
+                } else if (args.length == 2) {
+                    return List.of("add", "remove");
                 } else {
                     return Collections.singletonList("This_cmd_only_requires_2_args");
                 }
