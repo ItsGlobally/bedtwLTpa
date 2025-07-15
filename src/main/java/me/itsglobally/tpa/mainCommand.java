@@ -164,7 +164,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         langapi.tellMsg(p, "cmd.tpa.tpno");
     }
     private static void tpwhitelist(Player p, Player tg, String status) {
-        if (Objects.equals(status, "add")) {
+        if (status.equalsIgnoreCase("add")) {
             if (utils.getTpaWl(p).contains(tg)) {
                 langapi.tellMsg(p, "cmd.tpa.already-in-wl");
                 return;
@@ -182,7 +182,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
 
     }
     private static void tpblacklist(Player p, Player tg, String status) {
-        if (status.equals("add")) {
+        if (status.equalsIgnoreCase("add")) {
             if (utils.getTpaBl(p).contains(tg)) {
                 langapi.tellMsg(p, "cmd.tpa.already-in-bl");
                 return;
