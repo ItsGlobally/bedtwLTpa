@@ -92,6 +92,7 @@ public class mainCommand implements CommandExecutor, TabCompleter {
         }*/
         if (utils.getTpaTg(p) != null) {
             langapi.tellMsg(p, "cmd.tpa.multi-req-not-implemented");
+            return;
         }
         if (utils.getTpaBl(tg).contains(p)) {
             langapi.tellMsg(p, "cmd.tpa.get-blocked");
